@@ -26,19 +26,19 @@ struct Arguments {
 enum SubCommands {
     GetCharacters {
         #[clap(forbid_empty_values = true)]
-        username: String,
+        api_key: String,
         #[clap(forbid_empty_values = false)]
         character: String,
     },
     GetEpisodes {
         #[clap(forbid_empty_values = true)]
-        username: String,
+        api_key: String,
         #[clap(forbid_empty_values = false)]
         episode: String,
     },
     GetLocations {
         #[clap(forbid_empty_values = true)]
-        username: String,
+        api_key: String,
         #[clap(forbid_empty_values = false)]
         location: String,
     },
@@ -98,10 +98,13 @@ async fn main() {
     match args.cmd {
         SubCommands::GetCharacters {
             character,
-            username,
+            api_key,
         } => {
-            if username.is_empty() {
-                eprintln!("user not found. Call the signup endpoint to create an account")
+            if api_key.is_empty() {
+                eprintln!("Please enter an API key. One can be created through the signup endpoint")
+            }
+            if get::<Character>(&mut connect(), &api_key).unwrap().is_empty() {
+                eprintln!("User not found. A user could be created by calling the signup endpoint")
             }
             let items: Vec<Character> = get_items(  "characters").await;
             if character.is_empty() {
@@ -114,9 +117,12 @@ async fn main() {
                 }
             }
         }
-        SubCommands::GetLocations { location, username } => {
-            if username.is_empty() {
-                eprintln!("user not found. Call the signup endpoint to create an account")
+        SubCommands::GetLocations { location, api_key } => {
+            if api_key.is_empty() {
+                eprintln!("Please enter an API key. One can be created through the signup endpoint")
+            }
+            if get::<Location>(&mut connect(), &api_key).unwrap().is_empty() {
+                eprintln!("User not found. A user could be created by calling the signup endpoint")
             }
             let items: Vec<Location> = get_items(  "locations").await;
             if location.is_empty() {
@@ -129,9 +135,12 @@ async fn main() {
                 }
             }
         }
-        SubCommands::GetEpisodes { episode, username } => {
-            if username.is_empty() {
-                eprintln!("user not found. Call the signup endpoint to create an account")
+        SubCommands::GetEpisodes { episode, api_key } => {
+            if api_key.is_empty() {
+                eprintln!("Please enter an API key. One can be created through the signup endpoint")
+            }
+            if get::<Episode>(&mut connect(), &api_key).unwrap().is_empty() {
+                eprintln!("User not found. A user could be created by calling the signup endpoint")
             }
             let items: Vec<Episode> = get_items(  "episodes").await;
             if episode.is_empty() {

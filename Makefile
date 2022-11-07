@@ -21,6 +21,10 @@ fmt:
 	@echo [$@]: Formatting code...
 	cargo fmt
 
+test:
+	@echo [$@]:  running unit tests...
+	cargo test
+
 # Cleans all generated artifacts and deletes all docker containers
 clean: clean-docker clean-cargo clean-docker-redis
 
