@@ -25,6 +25,10 @@ test:
 	@echo [$@]:  running unit tests...
 	cargo test
 
+install:
+	@echo [$@]:  Installing CLI...
+	cargo install
+
 # Cleans all generated artifacts and deletes all docker containers
 clean: clean-docker clean-cargo clean-docker-redis
 
